@@ -65,7 +65,16 @@ class App extends Component<Props, State> {
     console.log(color)
     return (
       <div className="App">
-        <input type='file' accept="image/*" onChange={this.onImgChange} />
+        <label htmlFor="upload-file">
+          Click here to upload!
+        </label>
+        <input
+          id="upload-file"
+          type="file"
+          accept="image/*"
+          onChange={this.onImgChange}
+          className="hidden"
+        />
         {imgUrl && (
           <img
             src={imgUrl}

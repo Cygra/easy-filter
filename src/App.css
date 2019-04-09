@@ -1,0 +1,7 @@
+.hidden {
+  visibility: hidden;
+}
+
+label#upload-file {
+  display: block;
+}
