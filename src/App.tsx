@@ -1,25 +1,38 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, ChangeEvent } from 'react';
 import './App.css';
 
-class App extends Component {
+interface Props {
+
+}
+
+interface State {
+  imgUrl: string;
+}
+
+class App extends Component<Props, State> {
+  reader: FileReader;
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      imgUrl: '',
+    };
+    this.reader = new FileReader();
+    this.reader.onload = () => this.setState({
+      imgUrl: String(this.reader.result),
+    })
+  }
+
+  onImgChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const files: FileList | null = e.target.files;
+    files && this.reader!.readAsDataURL(files[0]);
+  }
+
   render() {
+    const { imgUrl } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <input type='file' accept="image/*" onChange={this.onImgChange} />
+        {imgUrl && <img src={imgUrl} />}
       </div>
     );
   }
