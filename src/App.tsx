@@ -92,12 +92,12 @@ class App extends Component<Props, State> {
   get labelText(): string {
     switch (this.state.dragStatus) {
       case FileStatus.DRAG_ENTER:
-        return 'Drop to upload!';
+        return 'Drop to load file!';
       case FileStatus.UPLOADED:
-        return 'File has been uploaded!';
+        return 'File has been loaded!';
       case FileStatus.NULL:
       default:
-        return 'Drop or click to upload!';
+        return 'Drop or click to load file!';
     }
   }
 
