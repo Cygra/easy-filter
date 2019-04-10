@@ -13,16 +13,19 @@ enum FileStatus {
 
 interface State {
   imgUrl: string;
-  grayscale: number;
-  blur: number;
-  sepia: number;
-  saturate: number;
-  hueRotate: number;
-  invert: number;
-  opacity: number;
-  brightness: number;
-  contrast: number;
-  dropShadow: [number, number, number, string];
+  grayscale: string;
+  blur: string;
+  sepia: string;
+  saturate: string;
+  hueRotate: string;
+  invert: string;
+  opacity: string;
+  brightness: string;
+  contrast: string;
+  dropOffX: string;
+  dropOffY: string;
+  dropBlurRad: string;
+  dropColor: string;
   dragStatus: FileStatus;
 }
 
@@ -32,16 +35,19 @@ class App extends Component<Props, State> {
     super(props);
     this.state = {
       imgUrl: '',
-      grayscale: 0,
-      blur: 0,
-      sepia: 0,
-      saturate: 100,
-      hueRotate: 0,
-      invert: 0,
-      opacity: 100,
-      brightness: 100,
-      contrast: 100,
-      dropShadow: [0, 0, 0, '#000'],
+      grayscale: '0',
+      blur: '0',
+      sepia: '0',
+      saturate: '100',
+      hueRotate: '0',
+      invert: '0',
+      opacity: '100',
+      brightness: '100',
+      contrast: '100',
+      dropOffX: '0',
+      dropOffY: '0',
+      dropBlurRad: '0',
+      dropColor: '000',
       dragStatus: FileStatus.NULL,
     };
     this.reader = new FileReader();
@@ -79,6 +85,10 @@ class App extends Component<Props, State> {
     files && this.reader!.readAsDataURL(files[0]);
   }
 
+  updateValue = (val: string, title: string) => {
+    this.setState(state => ({ ...state, [title]: val }))
+  }
+
   get labelText(): string {
     switch (this.state.dragStatus) {
       case FileStatus.DRAG_ENTER:
@@ -103,9 +113,24 @@ class App extends Component<Props, State> {
       brightness,
       contrast,
       hueRotate,
-      dropShadow,
+      dropOffX,
+      dropOffY,
+      dropBlurRad,
+      dropColor,
     } = this.state;
-    const [offX, offY, blurRad, color] = dropShadow;
+
+    const filter = [
+      `grayscale(${Number(grayscale)})`,
+      `blur(${Number(blur)}px)`,
+      `sepia(${Number(sepia)}%)`,
+      `saturate(${Number(saturate)}%)`,
+      `hue-rotate(${Number(hueRotate)}deg)`,
+      `invert(${Number(invert)})`,
+      `opacity(${Number(opacity)}%)`,
+      `brightness(${Number(brightness)}%)`,
+      `contrast(${Number(contrast)}%)`,
+      `drop-shadow(${Number(dropOffX)}px ${Number(dropOffY)}px ${Number(dropBlurRad)}px #${dropColor})`,
+    ].join(' ')
     return (
       <div className="App">
         <label
@@ -123,24 +148,39 @@ class App extends Component<Props, State> {
           onChange={this.onImgChange}
           className="hidden"
         />
+        <div>
+          <div>grayscale</div>
+          <input type='number' onChange={e => this.setState({ grayscale: e.target.value })} value={grayscale} />
+          <div>blur</div>
+          <input type='number' onChange={e => this.setState({ blur: e.target.value })} value={blur} />
+          <div>sepia</div>
+          <input type='number' onChange={e => this.setState({ sepia: e.target.value })} value={sepia} />
+          <div>saturate</div>
+          <input type='number' onChange={e => this.setState({ saturate: e.target.value })} value={saturate} />
+          <div>hue-rotate</div>
+          <input type='number' onChange={e => this.setState({ hueRotate: e.target.value })} value={hueRotate} />
+          <div>invert</div>
+          <input type='number' onChange={e => this.setState({ invert: e.target.value })} value={invert} />
+          <div>opacity</div>
+          <input type='number' onChange={e => this.setState({ opacity: e.target.value })} value={opacity} />
+          <div>brightness</div>
+          <input type='number' onChange={e => this.setState({ brightness: e.target.value })} value={brightness} />
+          <div>contrast</div>
+          <input type='number' onChange={e => this.setState({ contrast: e.target.value })} value={contrast} />
+          <div>drop-shadow offset-X</div>
+          <input type='number' onChange={e => this.setState({ dropOffX: e.target.value })} value={dropOffX} />
+          <div>drop-shadow offset-Y</div>
+          <input type='number' onChange={e => this.setState({ dropOffY: e.target.value })} value={dropOffY} />
+          <div>drop-shadow blur-radius</div>
+          <input type='number' onChange={e => this.setState({ dropBlurRad: e.target.value })} value={dropBlurRad} />
+          <div>drop-shadow color</div>
+          #<input onChange={e => this.setState({ dropColor: e.target.value })} value={dropColor} />
+        </div>
         {imgUrl && (
-          <img
-            src={imgUrl}
-            style={{
-              filter: [
-                `grayscale(${grayscale})`,
-                `blur(${blur}px)`,
-                `sepia(${sepia}%)`,
-                `saturate(${saturate}%)`,
-                `hue-rotate(${hueRotate}deg)`,
-                `invert(${invert})`,
-                `opacity(${opacity}%)`,
-                `brightness(${brightness}%)`,
-                `contrast(${contrast}%)`,
-                `drop-shadow(${offX}px ${offY}px ${blurRad}px ${color})`,
-              ].join(' ')
-            }}
-          />
+          <>
+            <img src={imgUrl} style={{ filter }} /><br />
+            filter: {filter}
+          </>
         )}
       </div>
     );
