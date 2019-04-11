@@ -1,5 +1,6 @@
 import React, { Component, ChangeEvent, DragEvent } from 'react';
 import './App.scss';
+import { Header } from './components/Header'
 
 interface Props {
 
@@ -8,7 +9,6 @@ interface Props {
 enum FileStatus {
   DRAG_ENTER,
   NULL,
-  UPLOADED,
 }
 
 interface State {
@@ -35,12 +35,12 @@ class App extends Component<Props, State> {
     super(props);
     this.state = {
       imgUrl: '',
-      grayscale: '100',
+      grayscale: '0',
       blur: '0',
-      sepia: '100',
+      sepia: '0',
       saturate: '100',
       hueRotate: '0',
-      invert: '100',
+      invert: '0',
       opacity: '100',
       brightness: '100',
       contrast: '100',
@@ -52,7 +52,6 @@ class App extends Component<Props, State> {
     };
     this.reader = new FileReader();
     this.reader.onload = () => this.setState({
-      dragStatus: FileStatus.UPLOADED,
       imgUrl: String(this.reader.result),
     });
   }
@@ -89,12 +88,17 @@ class App extends Component<Props, State> {
     this.setState(state => ({ ...state, [title]: val }))
   }
 
+  reloadFile = () => {
+    this.setState({
+      imgUrl: '',
+      dragStatus: FileStatus.NULL,
+    })
+  }
+
   get labelText(): string {
     switch (this.state.dragStatus) {
       case FileStatus.DRAG_ENTER:
         return 'Drop to load file!';
-      case FileStatus.UPLOADED:
-        return 'File has been loaded!';
       case FileStatus.NULL:
       default:
         return 'Drop or click to load file!';
@@ -117,6 +121,7 @@ class App extends Component<Props, State> {
       dropOffY,
       dropBlurRad,
       dropColor,
+      dragStatus,
     } = this.state;
 
     const filter = [
@@ -133,14 +138,25 @@ class App extends Component<Props, State> {
     ].join(' ')
     return (
       <div className="App">
-        <label
-          htmlFor="upload-file"
-          onDragEnter={this.onDragEnter}
-          onDragOver={e => e.preventDefault()}
-          onDragLeave={this.onDragLeave}
-          onDrop={this.dropImage}>
-          {this.labelText}
-        </label>
+        <Header />
+        {imgUrl ? (
+          <>
+            <button onClick={this.reloadFile}>Reload File</button>
+            <img src={imgUrl} style={{ filter }} /><br />
+          </>
+        ) : (
+          <label
+            htmlFor="upload-file"
+            onDragEnter={this.onDragEnter}
+            onDragOver={e => e.preventDefault()}
+            onDragLeave={this.onDragLeave}
+            onDrop={this.dropImage}>
+            <div className={`label-${dragStatus}`}>
+              {this.labelText}
+            </div>
+          </label>
+        )}
+
         <input
           id="upload-file"
           type="file"
@@ -149,103 +165,104 @@ class App extends Component<Props, State> {
           className="hidden"
         />
         <div>
-          <div>grayscale</div>
+          <h3>grayscale</h3>
           <input
             type='number'
             onChange={e => this.setState({ grayscale: e.target.value })}
             value={grayscale}
           />
-          &nbsp;%
+          &nbsp;%<br />
 
-          <div>blur</div>
+          <h3>blur</h3>
           <input
             type='number'
             onChange={e => this.setState({ blur: e.target.value })}
             value={blur}
           />
-          &nbsp;px
+          &nbsp;px<br />
 
-          <div>sepia</div>
+          <h3>sepia</h3>
           <input
             type='number'
             onChange={e => this.setState({ sepia: e.target.value })}
             value={sepia}
           />
-          &nbsp;%
+          &nbsp;%<br />
 
-          <div>saturate</div>
+          <h3>saturate</h3>
           <input
             type='number'
             onChange={e => this.setState({ saturate: e.target.value })}
             value={saturate}
           />
-          &nbsp;%
+          &nbsp;%<br />
 
-          <div>hue-rotate</div>
+          <h3>hue-rotate</h3>
           <input
             type='number'
             onChange={e => this.setState({ hueRotate: e.target.value })}
             value={hueRotate}
           />
-          &nbsp;deg
+          &nbsp;deg<br />
 
-          <div>invert</div>
+          <h3>invert</h3>
           <input
             type='number'
             onChange={e => this.setState({ invert: e.target.value })}
             value={invert}
           />
-          &nbsp;%
+          &nbsp;%<br />
 
-          <div>opacity</div>
+          <h3>opacity</h3>
           <input
             type='number'
             onChange={e => this.setState({ opacity: e.target.value })}
             value={opacity}
           />
-          &nbsp;%
+          &nbsp;%<br />
 
-          <div>brightness</div>
+          <h3>brightness</h3>
           <input
             type='number'
             onChange={e => this.setState({ brightness: e.target.value })}
             value={brightness}
           />
-          &nbsp;%
+          &nbsp;%<br />
 
-          <div>contrast</div>
+          <h3>contrast</h3>
           <input
             type='number'
             onChange={e => this.setState({ contrast: e.target.value })}
             value={contrast}
           />
-          &nbsp;%
+          &nbsp;%<br />
 
-          <div>drop-shadow offset-X</div>
+          <h3>drop-shadow</h3><br />
+          <span>offset-X</span>
           <input
             type='number'
             onChange={e => this.setState({ dropOffX: e.target.value })}
             value={dropOffX}
           />
-          &nbsp;px
+          &nbsp;px<br />
 
-          <div>drop-shadow offset-Y</div>
+          <span>offset-Y</span>
           <input
             type='number'
             onChange={e => this.setState({ dropOffY: e.target.value })}
             value={dropOffY}
           />
-          &nbsp;px
+          &nbsp;px<br />
 
-          <div>drop-shadow blur-radius</div>
+          <span>blur-radius</span>
           <input
             type='number'
             onChange={e => this.setState({ dropBlurRad: e.target.value })}
             value={dropBlurRad}
           />
-          &nbsp;px
+          &nbsp;px<br />
 
-          <div>drop-shadow color</div>
+          <span>color</span>
           #&nbsp;
           <input
             type='text'
@@ -254,12 +271,6 @@ class App extends Component<Props, State> {
             id='color-input'
           />
         </div>
-        {imgUrl && (
-          <>
-            <img src={imgUrl} style={{ filter }} /><br />
-            filter: {filter}
-          </>
-        )}
       </div>
     );
   }
