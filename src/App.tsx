@@ -35,12 +35,12 @@ class App extends Component<Props, State> {
     super(props);
     this.state = {
       imgUrl: '',
-      grayscale: '0',
+      grayscale: '100',
       blur: '0',
-      sepia: '0',
+      sepia: '100',
       saturate: '100',
       hueRotate: '0',
-      invert: '0',
+      invert: '100',
       opacity: '100',
       brightness: '100',
       contrast: '100',
@@ -120,12 +120,12 @@ class App extends Component<Props, State> {
     } = this.state;
 
     const filter = [
-      `grayscale(${Number(grayscale)})`,
+      `grayscale(${Number(grayscale)}%)`,
       `blur(${Number(blur)}px)`,
       `sepia(${Number(sepia)}%)`,
       `saturate(${Number(saturate)}%)`,
       `hue-rotate(${Number(hueRotate)}deg)`,
-      `invert(${Number(invert)})`,
+      `invert(${Number(invert)}%)`,
       `opacity(${Number(opacity)}%)`,
       `brightness(${Number(brightness)}%)`,
       `contrast(${Number(contrast)}%)`,
@@ -150,31 +150,109 @@ class App extends Component<Props, State> {
         />
         <div>
           <div>grayscale</div>
-          <input type='number' onChange={e => this.setState({ grayscale: e.target.value })} value={grayscale} />
+          <input
+            type='number'
+            onChange={e => this.setState({ grayscale: e.target.value })}
+            value={grayscale}
+          />
+          &nbsp;%
+
           <div>blur</div>
-          <input type='number' onChange={e => this.setState({ blur: e.target.value })} value={blur} />
+          <input
+            type='number'
+            onChange={e => this.setState({ blur: e.target.value })}
+            value={blur}
+          />
+          &nbsp;px
+
           <div>sepia</div>
-          <input type='number' onChange={e => this.setState({ sepia: e.target.value })} value={sepia} />
+          <input
+            type='number'
+            onChange={e => this.setState({ sepia: e.target.value })}
+            value={sepia}
+          />
+          &nbsp;%
+
           <div>saturate</div>
-          <input type='number' onChange={e => this.setState({ saturate: e.target.value })} value={saturate} />
+          <input
+            type='number'
+            onChange={e => this.setState({ saturate: e.target.value })}
+            value={saturate}
+          />
+          &nbsp;%
+
           <div>hue-rotate</div>
-          <input type='number' onChange={e => this.setState({ hueRotate: e.target.value })} value={hueRotate} />
+          <input
+            type='number'
+            onChange={e => this.setState({ hueRotate: e.target.value })}
+            value={hueRotate}
+          />
+          &nbsp;deg
+
           <div>invert</div>
-          <input type='number' onChange={e => this.setState({ invert: e.target.value })} value={invert} />
+          <input
+            type='number'
+            onChange={e => this.setState({ invert: e.target.value })}
+            value={invert}
+          />
+          &nbsp;%
+
           <div>opacity</div>
-          <input type='number' onChange={e => this.setState({ opacity: e.target.value })} value={opacity} />
+          <input
+            type='number'
+            onChange={e => this.setState({ opacity: e.target.value })}
+            value={opacity}
+          />
+          &nbsp;%
+
           <div>brightness</div>
-          <input type='number' onChange={e => this.setState({ brightness: e.target.value })} value={brightness} />
+          <input
+            type='number'
+            onChange={e => this.setState({ brightness: e.target.value })}
+            value={brightness}
+          />
+          &nbsp;%
+
           <div>contrast</div>
-          <input type='number' onChange={e => this.setState({ contrast: e.target.value })} value={contrast} />
+          <input
+            type='number'
+            onChange={e => this.setState({ contrast: e.target.value })}
+            value={contrast}
+          />
+          &nbsp;%
+
           <div>drop-shadow offset-X</div>
-          <input type='number' onChange={e => this.setState({ dropOffX: e.target.value })} value={dropOffX} />
+          <input
+            type='number'
+            onChange={e => this.setState({ dropOffX: e.target.value })}
+            value={dropOffX}
+          />
+          &nbsp;px
+
           <div>drop-shadow offset-Y</div>
-          <input type='number' onChange={e => this.setState({ dropOffY: e.target.value })} value={dropOffY} />
+          <input
+            type='number'
+            onChange={e => this.setState({ dropOffY: e.target.value })}
+            value={dropOffY}
+          />
+          &nbsp;px
+
           <div>drop-shadow blur-radius</div>
-          <input type='number' onChange={e => this.setState({ dropBlurRad: e.target.value })} value={dropBlurRad} />
+          <input
+            type='number'
+            onChange={e => this.setState({ dropBlurRad: e.target.value })}
+            value={dropBlurRad}
+          />
+          &nbsp;px
+
           <div>drop-shadow color</div>
-          #<input onChange={e => this.setState({ dropColor: e.target.value })} value={dropColor} />
+          #&nbsp;
+          <input
+            type='text'
+            onChange={e => this.setState({ dropColor: e.target.value })}
+            value={dropColor}
+            id='color-input'
+          />
         </div>
         {imgUrl && (
           <>
