@@ -1,5 +1,5 @@
 import React, { Component, ChangeEvent, DragEvent } from 'react';
-import './App.css';
+import './App.scss';
 
 interface Props {
 
