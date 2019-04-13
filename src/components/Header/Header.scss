@@ -1,11 +1,10 @@
 .header {
-  display: flex;
-  align-items: flex-end;
   margin: 20px 0;
+  text-align: center;
   h1 {
     margin: 0;
     line-height: 32px;
     font-size: 32px;
-    font-feature-settings: "smcp";
+    font-feature-settings: 'smcp';
   }
 }

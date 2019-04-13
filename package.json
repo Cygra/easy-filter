@@ -1,6 +1,6 @@
 {
   "name": "easy-filter",
-  "version": "1.0",
+  "version": "1.1",
   "private": true,
   "homepage": "http://cygra.github.io/easy-filter",
   "dependencies": {
@@ -126,6 +126,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "prettier": "^1.17.0"
   }
 }

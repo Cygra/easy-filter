@@ -21,9 +21,17 @@
     visibility: hidden;
   }
 
-  button {
-    margin-bottom: 10px;
-    cursor: pointer;
+  .btn-row {
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-bottom: 10px;
+      cursor: pointer;
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
   }
 
   label {
@@ -34,11 +42,11 @@
       height: 300px;
       line-height: 300px;
       text-align: center;
-      font-feature-settings: "smcp";
-      background-color: #F0F0F0;
+      font-feature-settings: 'smcp';
+      background-color: #f0f0f0;
       border-radius: 6px;
       &.label-0 {
-        background-color: #E1F9CE;
+        background-color: #e1f9ce;
       }
     }
   }
@@ -48,8 +56,12 @@
     height: auto;
   }
 
-  input[type=number],
-  input[type=text] {
+  input[type='number'],
+  input[type='text'] {
     margin: 5px 0;
+  }
+
+  select {
+    width: 300px;
   }
 }
