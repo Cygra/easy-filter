@@ -1,6 +1,7 @@
-import React, { Component, ChangeEvent, DragEvent } from 'react'
+import React, { ChangeEvent, Component, DragEvent } from 'react'
 import './App.scss'
 import { Header } from './components/Header'
+import { Filters, filters } from './constants/filters'
 
 enum FileStatus {
   DRAG_ENTER,
@@ -10,34 +11,19 @@ enum FileStatus {
 interface State {
   imgUrl: string
   dragStatus: FileStatus
-}
-
-interface Filters {
-  grayscale: string
-  blur: string
-  sepia: string
-  saturate: string
-  hueRotate: string
-  invert: string
-  opacity: string
-  brightness: string
-  contrast: string
-  dropOffX: string
-  dropOffY: string
-  dropBlurRad: string
-  dropColor: string
+  selectedExample: string
 }
 
 const defaultFilters: Filters = {
   grayscale: '0',
   blur: '0',
   sepia: '0',
-  saturate: '100',
+  saturate: '1',
   hueRotate: '0',
   invert: '0',
-  opacity: '100',
-  brightness: '100',
-  contrast: '100',
+  opacity: '1',
+  brightness: '1',
+  contrast: '1',
   dropOffX: '0',
   dropOffY: '0',
   dropBlurRad: '0',
@@ -51,6 +37,7 @@ class App extends Component<{}, State & Filters> {
     this.state = {
       imgUrl: '',
       dragStatus: FileStatus.NULL,
+      selectedExample: '',
       ...defaultFilters,
     }
     this.reader = new FileReader()
@@ -102,7 +89,16 @@ class App extends Component<{}, State & Filters> {
 
   resetFilters = () => {
     this.setState({
+      selectedExample: '',
       ...defaultFilters,
+    })
+  }
+
+  setExampleFilter = (i: ChangeEvent<HTMLSelectElement>): void => {
+    this.setState({
+      selectedExample: i.target.value,
+      ...defaultFilters,
+      ...filters[i.target.value],
     })
   }
 
@@ -133,18 +129,19 @@ class App extends Component<{}, State & Filters> {
       dropBlurRad,
       dropColor,
       dragStatus,
+      selectedExample,
     } = this.state
 
     const filter = [
-      `grayscale(${Number(grayscale)}%)`,
+      `grayscale(${Number(grayscale)})`,
       `blur(${Number(blur)}px)`,
-      `sepia(${Number(sepia)}%)`,
-      `saturate(${Number(saturate)}%)`,
+      `sepia(${Number(sepia)})`,
+      `saturate(${Number(saturate)})`,
       `hue-rotate(${Number(hueRotate)}deg)`,
-      `invert(${Number(invert)}%)`,
-      `opacity(${Number(opacity)}%)`,
-      `brightness(${Number(brightness)}%)`,
-      `contrast(${Number(contrast)}%)`,
+      `invert(${Number(invert)})`,
+      `opacity(${Number(opacity)})`,
+      `brightness(${Number(brightness)})`,
+      `contrast(${Number(contrast)})`,
       `drop-shadow(${Number(dropOffX)}px ${Number(dropOffY)}px ${Number(
         dropBlurRad
       )}px #${dropColor})`,
@@ -187,7 +184,7 @@ class App extends Component<{}, State & Filters> {
             onChange={e => this.setState({ grayscale: e.target.value })}
             value={grayscale}
           />
-          &nbsp;%
+          &nbsp;
           <br />
           <h3>blur</h3>
           <input
@@ -203,7 +200,7 @@ class App extends Component<{}, State & Filters> {
             onChange={e => this.setState({ sepia: e.target.value })}
             value={sepia}
           />
-          &nbsp;%
+          &nbsp;
           <br />
           <h3>saturate</h3>
           <input
@@ -211,7 +208,7 @@ class App extends Component<{}, State & Filters> {
             onChange={e => this.setState({ saturate: e.target.value })}
             value={saturate}
           />
-          &nbsp;%
+          &nbsp;
           <br />
           <h3>hue-rotate</h3>
           <input
@@ -227,7 +224,7 @@ class App extends Component<{}, State & Filters> {
             onChange={e => this.setState({ invert: e.target.value })}
             value={invert}
           />
-          &nbsp;%
+          &nbsp;
           <br />
           <h3>opacity</h3>
           <input
@@ -235,7 +232,7 @@ class App extends Component<{}, State & Filters> {
             onChange={e => this.setState({ opacity: e.target.value })}
             value={opacity}
           />
-          &nbsp;%
+          &nbsp;
           <br />
           <h3>brightness</h3>
           <input
@@ -243,7 +240,7 @@ class App extends Component<{}, State & Filters> {
             onChange={e => this.setState({ brightness: e.target.value })}
             value={brightness}
           />
-          &nbsp;%
+          &nbsp;
           <br />
           <h3>contrast</h3>
           <input
@@ -251,7 +248,7 @@ class App extends Component<{}, State & Filters> {
             onChange={e => this.setState({ contrast: e.target.value })}
             value={contrast}
           />
-          &nbsp;%
+          &nbsp;
           <br />
           <h3>drop-shadow</h3>
           <br />
@@ -287,6 +284,17 @@ class App extends Component<{}, State & Filters> {
             value={dropColor}
             id="color-input"
           />
+        </div>
+        <div>
+          <h2>Examples</h2>
+          <select onChange={this.setExampleFilter} value={selectedExample}>
+            <option value={''}>Default</option>
+            {Object.keys(filters).map(i => (
+              <option value={i} key={i}>
+                {i}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     )
