@@ -98,10 +98,10 @@ class App extends Component<Props, State> {
   get labelText(): string {
     switch (this.state.dragStatus) {
       case FileStatus.DRAG_ENTER:
-        return 'Drop to load file!';
+        return 'Drop to load image!';
       case FileStatus.NULL:
       default:
-        return 'Drop or click to load file!';
+        return 'Drop or click to load image!';
     }
   }
 
@@ -141,7 +141,7 @@ class App extends Component<Props, State> {
         <Header />
         {imgUrl ? (
           <>
-            <button onClick={this.reloadFile}>Reload File</button>
+            <button onClick={this.reloadFile}>Reload Image</button>
             <img src={imgUrl} style={{ filter }} /><br />
           </>
         ) : (
