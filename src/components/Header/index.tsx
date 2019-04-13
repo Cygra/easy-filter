@@ -4,7 +4,8 @@ import './Header.scss'
 export const Header: FC = () => {
   return (
     <div className="header">
-      <h1>Try Filter</h1>&nbsp;
+      <h1>Try Filter</h1>
+      <br />
       <a href="https://github.com/Cygra/easy-filter" target="_blank">
         on Github
       </a>
