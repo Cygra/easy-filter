@@ -21,9 +21,17 @@
     visibility: hidden;
   }
 
-  button {
-    margin-bottom: 10px;
-    cursor: pointer;
+  .btn-row {
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-bottom: 10px;
+      cursor: pointer;
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
   }
 
   label {

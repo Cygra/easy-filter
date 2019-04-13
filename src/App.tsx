@@ -2,10 +2,6 @@ import React, { Component, ChangeEvent, DragEvent } from 'react';
 import './App.scss';
 import { Header } from './components/Header'
 
-interface Props {
-
-}
-
 enum FileStatus {
   DRAG_ENTER,
   NULL,
@@ -13,6 +9,10 @@ enum FileStatus {
 
 interface State {
   imgUrl: string;
+  dragStatus: FileStatus;
+}
+
+interface Filters {
   grayscale: string;
   blur: string;
   sepia: string;
@@ -26,34 +26,39 @@ interface State {
   dropOffY: string;
   dropBlurRad: string;
   dropColor: string;
-  dragStatus: FileStatus;
 }
 
-class App extends Component<Props, State> {
+const defaultFilters: Filters = {
+  grayscale: '0',
+  blur: '0',
+  sepia: '0',
+  saturate: '100',
+  hueRotate: '0',
+  invert: '0',
+  opacity: '100',
+  brightness: '100',
+  contrast: '100',
+  dropOffX: '0',
+  dropOffY: '0',
+  dropBlurRad: '0',
+  dropColor: '000',
+}
+
+class App extends Component<{}, State & Filters> {
   reader: FileReader;
-  constructor(props: Props) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       imgUrl: '',
-      grayscale: '0',
-      blur: '0',
-      sepia: '0',
-      saturate: '100',
-      hueRotate: '0',
-      invert: '0',
-      opacity: '100',
-      brightness: '100',
-      contrast: '100',
-      dropOffX: '0',
-      dropOffY: '0',
-      dropBlurRad: '0',
-      dropColor: '000',
       dragStatus: FileStatus.NULL,
+      ...defaultFilters,
     };
     this.reader = new FileReader();
-    this.reader.onload = () => this.setState({
-      imgUrl: String(this.reader.result),
-    });
+    this.reader.onload = () => {
+      this.setState({
+        imgUrl: String(this.reader.result),
+      })
+    };
   }
 
   onImgChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -92,6 +97,12 @@ class App extends Component<Props, State> {
     this.setState({
       imgUrl: '',
       dragStatus: FileStatus.NULL,
+    })
+  }
+
+  resetFilters = () => {
+    this.setState({
+      ...defaultFilters,
     })
   }
 
@@ -141,8 +152,11 @@ class App extends Component<Props, State> {
         <Header />
         {imgUrl ? (
           <>
-            <button onClick={this.reloadFile}>Reload Image</button>
             <img src={imgUrl} style={{ filter }} /><br />
+            <div className='btn-row'>
+              <button onClick={this.reloadFile}>Reload Image</button>
+              <button onClick={this.resetFilters}>Reset Filters</button>
+            </div>
           </>
         ) : (
           <label
