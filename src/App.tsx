@@ -189,6 +189,7 @@ class App extends Component<{}, State & Filters> {
                 </option>
               ))}
             </select>
+            <code>filter: {filter};</code>
           </div>
           <div>
             <h3>grayscale</h3>

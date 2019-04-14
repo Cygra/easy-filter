@@ -1,3 +1,5 @@
+$background: #f0f0f0;
+
 .App {
   max-width: 1200px;
   margin: 0 auto 10px;
@@ -43,7 +45,7 @@
       line-height: 300px;
       text-align: center;
       font-feature-settings: 'smcp';
-      background-color: #f0f0f0;
+      background-color: $background;
       border-radius: 6px;
       &.label-0 {
         background-color: #e1f9ce;
@@ -74,6 +76,15 @@
     }
 
     select {
+      width: 300px;
+    }
+
+    code {
+      display: block;
+      margin-top: 20px;
+      padding: 5px;
+      background-color: $background;
+      border-radius: 6px;
       width: 300px;
     }
   }
