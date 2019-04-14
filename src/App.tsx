@@ -177,124 +177,127 @@ class App extends Component<{}, State & Filters> {
           onChange={this.onImgChange}
           className="hidden"
         />
-        <div>
-          <h3>grayscale</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ grayscale: e.target.value })}
-            value={grayscale}
-          />
-          &nbsp;
-          <br />
-          <h3>blur</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ blur: e.target.value })}
-            value={blur}
-          />
-          &nbsp;px
-          <br />
-          <h3>sepia</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ sepia: e.target.value })}
-            value={sepia}
-          />
-          &nbsp;
-          <br />
-          <h3>saturate</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ saturate: e.target.value })}
-            value={saturate}
-          />
-          &nbsp;
-          <br />
-          <h3>hue-rotate</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ hueRotate: e.target.value })}
-            value={hueRotate}
-          />
-          &nbsp;deg
-          <br />
-          <h3>invert</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ invert: e.target.value })}
-            value={invert}
-          />
-          &nbsp;
-          <br />
-          <h3>opacity</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ opacity: e.target.value })}
-            value={opacity}
-          />
-          &nbsp;
-          <br />
-          <h3>brightness</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ brightness: e.target.value })}
-            value={brightness}
-          />
-          &nbsp;
-          <br />
-          <h3>contrast</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ contrast: e.target.value })}
-            value={contrast}
-          />
-          &nbsp;
-          <br />
-          <h3>drop-shadow</h3>
-          <br />
-          <span>offset-X</span>
-          <input
-            type="number"
-            onChange={e => this.setState({ dropOffX: e.target.value })}
-            value={dropOffX}
-          />
-          &nbsp;px
-          <br />
-          <span>offset-Y</span>
-          <input
-            type="number"
-            onChange={e => this.setState({ dropOffY: e.target.value })}
-            value={dropOffY}
-          />
-          &nbsp;px
-          <br />
-          <span>blur-radius</span>
-          <input
-            type="number"
-            onChange={e => this.setState({ dropBlurRad: e.target.value })}
-            value={dropBlurRad}
-          />
-          &nbsp;px
-          <br />
-          <span>color</span>
-          #&nbsp;
-          <input
-            type="text"
-            onChange={e => this.setState({ dropColor: e.target.value })}
-            value={dropColor}
-            id="color-input"
-          />
-        </div>
-        <div>
-          <h2>Examples</h2>
-          <select onChange={this.setExampleFilter} value={selectedExample}>
-            <option value={''}>Default</option>
-            {Object.keys(filters).map(i => (
-              <option value={i} key={i}>
-                {i}
-              </option>
-            ))}
-          </select>
+
+        <div className="filters-container">
+          <div>
+            <h2>Examples</h2>
+            <select onChange={this.setExampleFilter} value={selectedExample}>
+              <option value={''}>Default</option>
+              {Object.keys(filters).map(i => (
+                <option value={i} key={i}>
+                  {i}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <h3>grayscale</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ grayscale: e.target.value })}
+              value={grayscale}
+            />
+            &nbsp;
+            <br />
+            <h3>blur</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ blur: e.target.value })}
+              value={blur}
+            />
+            &nbsp;px
+            <br />
+            <h3>sepia</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ sepia: e.target.value })}
+              value={sepia}
+            />
+            &nbsp;
+            <br />
+            <h3>saturate</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ saturate: e.target.value })}
+              value={saturate}
+            />
+            &nbsp;
+            <br />
+            <h3>hue-rotate</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ hueRotate: e.target.value })}
+              value={hueRotate}
+            />
+            &nbsp;deg
+            <br />
+            <h3>invert</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ invert: e.target.value })}
+              value={invert}
+            />
+            &nbsp;
+            <br />
+            <h3>opacity</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ opacity: e.target.value })}
+              value={opacity}
+            />
+            &nbsp;
+            <br />
+            <h3>brightness</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ brightness: e.target.value })}
+              value={brightness}
+            />
+            &nbsp;
+            <br />
+            <h3>contrast</h3>
+            <input
+              type="number"
+              onChange={e => this.setState({ contrast: e.target.value })}
+              value={contrast}
+            />
+            &nbsp;
+            <br />
+            <h3>drop-shadow</h3>
+            <br />
+            <span>offset-X</span>
+            <input
+              type="number"
+              onChange={e => this.setState({ dropOffX: e.target.value })}
+              value={dropOffX}
+            />
+            &nbsp;px
+            <br />
+            <span>offset-Y</span>
+            <input
+              type="number"
+              onChange={e => this.setState({ dropOffY: e.target.value })}
+              value={dropOffY}
+            />
+            &nbsp;px
+            <br />
+            <span>blur-radius</span>
+            <input
+              type="number"
+              onChange={e => this.setState({ dropBlurRad: e.target.value })}
+              value={dropBlurRad}
+            />
+            &nbsp;px
+            <br />
+            <span>color</span>
+            #&nbsp;
+            <input
+              type="text"
+              onChange={e => this.setState({ dropColor: e.target.value })}
+              value={dropColor}
+              id="color-input"
+            />
+          </div>
         </div>
       </div>
     )
