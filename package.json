@@ -2,6 +2,7 @@
   "name": "easy-filter",
   "version": "1.1",
   "private": true,
+  "homepage": "http://cygra.github.io/easy-filter",
   "dependencies": {
     "@babel/core": "7.2.2",
     "@babel/plugin-transform-react-jsx-self": "^7.2.0",
@@ -64,7 +65,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "deploy": "node scripts/build.js && gh-pages -d public"
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
