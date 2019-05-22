@@ -1,13 +1,15 @@
 {
-  "main.css": "/easy-filter/static/css/main.c577d175.chunk.css",
-  "main.js": "/easy-filter/static/js/main.d4f2a241.chunk.js",
-  "main.js.map": "/easy-filter/static/js/main.d4f2a241.chunk.js.map",
+  "main.css": "/easy-filter/static/css/main.89d252a9.chunk.css",
+  "main.js": "/easy-filter/static/js/main.dea4fafd.chunk.js",
+  "main.js.map": "/easy-filter/static/js/main.dea4fafd.chunk.js.map",
   "runtime~main.js": "/easy-filter/static/js/runtime~main.49ddce35.js",
   "runtime~main.js.map": "/easy-filter/static/js/runtime~main.49ddce35.js.map",
-  "static/js/2.58271266.chunk.js": "/easy-filter/static/js/2.58271266.chunk.js",
-  "static/js/2.58271266.chunk.js.map": "/easy-filter/static/js/2.58271266.chunk.js.map",
+  "static/css/2.e00f26fe.chunk.css": "/easy-filter/static/css/2.e00f26fe.chunk.css",
+  "static/js/2.5a39c577.chunk.js": "/easy-filter/static/js/2.5a39c577.chunk.js",
+  "static/js/2.5a39c577.chunk.js.map": "/easy-filter/static/js/2.5a39c577.chunk.js.map",
   "index.html": "/easy-filter/index.html",
-  "precache-manifest.d176407e242aef0dc4813a7cf372969e.js": "/easy-filter/precache-manifest.d176407e242aef0dc4813a7cf372969e.js",
+  "precache-manifest.a3363442e33e981768899e2339bd1665.js": "/easy-filter/precache-manifest.a3363442e33e981768899e2339bd1665.js",
   "service-worker.js": "/easy-filter/service-worker.js",
-  "static/css/main.c577d175.chunk.css.map": "/easy-filter/static/css/main.c577d175.chunk.css.map"
+  "static/css/2.e00f26fe.chunk.css.map": "/easy-filter/static/css/2.e00f26fe.chunk.css.map",
+  "static/css/main.89d252a9.chunk.css.map": "/easy-filter/static/css/main.89d252a9.chunk.css.map"
 }
