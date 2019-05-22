@@ -2,6 +2,9 @@ import React, { ChangeEvent, Component, DragEvent } from 'react'
 import './App.scss'
 import { Header } from './components/Header'
 import { Filters, filters } from './constants/filters'
+import { ChromePicker, ColorResult } from 'react-color'
+import 'react-dat-gui/build/react-dat-gui.css'
+import DatGui, { DatNumber, DatFolder, DatString } from 'react-dat-gui'
 
 enum FileStatus {
   DRAG_ENTER,
@@ -12,6 +15,7 @@ interface State {
   imgUrl: string
   dragStatus: FileStatus
   selectedExample: string
+  filters: Filters
 }
 
 const defaultFilters: Filters = {
@@ -27,10 +31,10 @@ const defaultFilters: Filters = {
   dropOffX: '0',
   dropOffY: '0',
   dropBlurRad: '0',
-  dropColor: '000',
+  dropColor: '#000',
 }
 
-class App extends Component<{}, State & Filters> {
+class App extends Component<{}, State> {
   reader: FileReader
   constructor(props: {}) {
     super(props)
@@ -38,7 +42,9 @@ class App extends Component<{}, State & Filters> {
       imgUrl: '',
       dragStatus: FileStatus.NULL,
       selectedExample: '',
-      ...defaultFilters,
+      filters: {
+        ...defaultFilters,
+      },
     }
     this.reader = new FileReader()
     this.reader.onload = () => {
@@ -90,15 +96,19 @@ class App extends Component<{}, State & Filters> {
   resetFilters = () => {
     this.setState({
       selectedExample: '',
-      ...defaultFilters,
+      filters: {
+        ...defaultFilters,
+      },
     })
   }
 
   setExampleFilter = (i: ChangeEvent<HTMLSelectElement>): void => {
     this.setState({
       selectedExample: i.target.value,
-      ...defaultFilters,
-      ...filters[i.target.value],
+      filters: {
+        ...defaultFilters,
+        ...filters[i.target.value],
+      },
     })
   }
 
@@ -112,42 +122,71 @@ class App extends Component<{}, State & Filters> {
     }
   }
 
+  handleUpdate = (filters: any) => this.setState({ filters })
+  handleUpdateDropColor = (color: ColorResult) => {
+    this.setState(state => ({ ...state, filters: { ...state.filters, dropColor: color.hex } }))
+  }
+
   render() {
     const {
       imgUrl,
-      grayscale,
-      blur,
-      sepia,
-      saturate,
-      invert,
-      opacity,
-      brightness,
-      contrast,
-      hueRotate,
-      dropOffX,
-      dropOffY,
-      dropBlurRad,
-      dropColor,
+      filters,
+      filters: {
+        grayscale,
+        blur,
+        sepia,
+        saturate,
+        invert,
+        opacity,
+        brightness,
+        contrast,
+        hueRotate,
+        dropOffX,
+        dropOffY,
+        dropBlurRad,
+        dropColor,
+      },
       dragStatus,
       selectedExample,
     } = this.state
 
     const filter = [
-      `grayscale(${Number(grayscale)})`,
-      `blur(${Number(blur)}px)`,
-      `sepia(${Number(sepia)})`,
-      `saturate(${Number(saturate)})`,
-      `hue-rotate(${Number(hueRotate)}deg)`,
-      `invert(${Number(invert)})`,
-      `opacity(${Number(opacity)})`,
-      `brightness(${Number(brightness)})`,
-      `contrast(${Number(contrast)})`,
-      `drop-shadow(${Number(dropOffX)}px ${Number(dropOffY)}px ${Number(
-        dropBlurRad
-      )}px #${dropColor})`,
+      `grayscale(${grayscale})`,
+      `blur(${blur}px)`,
+      `sepia(${sepia})`,
+      `saturate(${saturate})`,
+      `hue-rotate(${hueRotate}deg)`,
+      `invert(${invert})`,
+      `opacity(${opacity})`,
+      `brightness(${brightness})`,
+      `contrast(${contrast})`,
+      `drop-shadow(${dropOffX}px ${dropOffY}px ${dropBlurRad}px ${dropColor})`,
     ].join(' ')
     return (
       <div className="App">
+        <DatGui data={filters} onUpdate={this.handleUpdate}>
+          <DatNumber path="grayscale" label="grayscale" min={0} max={1} step={0.1} />
+          <DatNumber path="blur" label="blur" min={0} max={10} step={0.1} />
+          <DatNumber path="sepia" label="sepia" min={0} max={1} step={0.1} />
+          <DatNumber path="saturate" label="saturate" min={0} max={1} step={0.1} />
+          <DatNumber path="hueRotate" label="hue-rotate" min={0} max={360} step={1} />
+          <DatNumber path="invert" label="invert" min={0} max={1} step={0.1} />
+          <DatNumber path="opacity" label="opacity" min={0} max={1} step={0.1} />
+          <DatNumber path="brightness" label="brightness" min={0} max={1} step={0.1} />
+          <DatNumber path="contrast" label="contrast" min={0} max={1} step={0.1} />
+          <DatFolder title="drop-shadow" closed={false}>
+            <DatNumber path="dropOffX" label="x" min={0} max={100} step={1} />
+            <DatNumber path="dropOffY" label="y" min={0} max={100} step={1} />
+            <DatNumber path="dropBlurRad" label="radius" min={0} max={10} step={0.1} />
+            <DatString path="dropColor" label="color" />
+          </DatFolder>
+        </DatGui>
+        <div style={{ position: 'fixed', right: 16, top: 388 }}>
+          <ChromePicker
+            color={this.state.filters.dropColor}
+            onChangeComplete={this.handleUpdateDropColor}
+          />
+        </div>
         <Header />
         {imgUrl ? (
           <>
@@ -177,124 +216,20 @@ class App extends Component<{}, State & Filters> {
           onChange={this.onImgChange}
           className="hidden"
         />
-        <div>
-          <h3>grayscale</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ grayscale: e.target.value })}
-            value={grayscale}
-          />
-          &nbsp;
-          <br />
-          <h3>blur</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ blur: e.target.value })}
-            value={blur}
-          />
-          &nbsp;px
-          <br />
-          <h3>sepia</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ sepia: e.target.value })}
-            value={sepia}
-          />
-          &nbsp;
-          <br />
-          <h3>saturate</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ saturate: e.target.value })}
-            value={saturate}
-          />
-          &nbsp;
-          <br />
-          <h3>hue-rotate</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ hueRotate: e.target.value })}
-            value={hueRotate}
-          />
-          &nbsp;deg
-          <br />
-          <h3>invert</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ invert: e.target.value })}
-            value={invert}
-          />
-          &nbsp;
-          <br />
-          <h3>opacity</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ opacity: e.target.value })}
-            value={opacity}
-          />
-          &nbsp;
-          <br />
-          <h3>brightness</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ brightness: e.target.value })}
-            value={brightness}
-          />
-          &nbsp;
-          <br />
-          <h3>contrast</h3>
-          <input
-            type="number"
-            onChange={e => this.setState({ contrast: e.target.value })}
-            value={contrast}
-          />
-          &nbsp;
-          <br />
-          <h3>drop-shadow</h3>
-          <br />
-          <span>offset-X</span>
-          <input
-            type="number"
-            onChange={e => this.setState({ dropOffX: e.target.value })}
-            value={dropOffX}
-          />
-          &nbsp;px
-          <br />
-          <span>offset-Y</span>
-          <input
-            type="number"
-            onChange={e => this.setState({ dropOffY: e.target.value })}
-            value={dropOffY}
-          />
-          &nbsp;px
-          <br />
-          <span>blur-radius</span>
-          <input
-            type="number"
-            onChange={e => this.setState({ dropBlurRad: e.target.value })}
-            value={dropBlurRad}
-          />
-          &nbsp;px
-          <br />
-          <span>color</span>
-          #&nbsp;
-          <input
-            type="text"
-            onChange={e => this.setState({ dropColor: e.target.value })}
-            value={dropColor}
-            id="color-input"
-          />
-        </div>
-        <div>
-          <h2>Examples</h2>
-          <select onChange={this.setExampleFilter} value={selectedExample}>
-            <option value={''}>Default</option>
-            {Object.keys(filters).map(i => (
-              <option value={i} key={i}>
-                {i}
-              </option>
-            ))}
-          </select>
+
+        <div className="filters-container">
+          <div>
+            <h2>Examples</h2>
+            <select onChange={this.setExampleFilter} value={selectedExample}>
+              <option value={''}>Default</option>
+              {Object.keys(filters).map(i => (
+                <option value={i} key={i}>
+                  {i}
+                </option>
+              ))}
+            </select>
+            <code>filter: {filter};</code>
+          </div>
         </div>
       </div>
     )

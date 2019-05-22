@@ -1,6 +1,8 @@
+$background: #f0f0f0;
+
 .App {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,7 +45,7 @@
       line-height: 300px;
       text-align: center;
       font-feature-settings: 'smcp';
-      background-color: #f0f0f0;
+      background-color: $background;
       border-radius: 6px;
       &.label-0 {
         background-color: #e1f9ce;
@@ -56,12 +58,34 @@
     height: auto;
   }
 
-  input[type='number'],
-  input[type='text'] {
-    margin: 5px 0;
-  }
+  .filters-container {
+    display: flex;
+    align-items: flex-start;
 
-  select {
-    width: 300px;
+    & > div {
+      flex: 1;
+      &:last-child {
+        margin-left: 20px;
+        min-width: 310px;
+      }
+    }
+
+    input[type='number'],
+    input[type='text'] {
+      margin: 5px 0;
+    }
+
+    select {
+      width: 300px;
+    }
+
+    code {
+      display: block;
+      margin-top: 20px;
+      padding: 5px;
+      background-color: $background;
+      border-radius: 6px;
+      width: 300px;
+    }
   }
 }
