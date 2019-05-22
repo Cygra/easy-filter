@@ -2,6 +2,7 @@ import React, { ChangeEvent, Component, DragEvent } from 'react'
 import './App.scss'
 import { Header } from './components/Header'
 import { Filters, filters } from './constants/filters'
+import { ChromePicker } from 'react-color'
 
 import 'react-dat-gui/build/react-dat-gui.css'
 import DatGui, {
