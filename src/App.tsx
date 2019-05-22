@@ -168,10 +168,10 @@ class App extends Component<{}, State> {
       <div className="App">
         <DatGui data={filters} onUpdate={this.handleUpdate}>
           <DatNumber path="grayscale" label="grayscale" min={0} max={1} step={0.1} />
-          <DatNumber path="blur" label="blur" min={0} max={1} step={0.1} />
+          <DatNumber path="blur" label="blur" min={0} max={10} step={0.1} />
           <DatNumber path="sepia" label="sepia" min={0} max={1} step={0.1} />
           <DatNumber path="saturate" label="saturate" min={0} max={1} step={0.1} />
-          <DatNumber path="hue-rotate" label="hue-rotate" min={0} max={1} step={0.1} />
+          <DatNumber path="hueRotate" label="hue-rotate" min={0} max={360} step={1} />
           <DatNumber path="invert" label="invert" min={0} max={1} step={0.1} />
           <DatNumber path="opacity" label="opacity" min={0} max={1} step={0.1} />
           <DatNumber path="brightness" label="brightness" min={0} max={1} step={0.1} />
