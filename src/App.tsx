@@ -2,15 +2,9 @@ import React, { ChangeEvent, Component, DragEvent } from 'react'
 import './App.scss'
 import { Header } from './components/Header'
 import { Filters, filters } from './constants/filters'
-import { ChromePicker } from 'react-color'
-
+import { ChromePicker, ColorResult } from 'react-color'
 import 'react-dat-gui/build/react-dat-gui.css'
-import DatGui, {
-  DatNumber,
-  DatFolder,
-  // DatColor,
-  DatString,
-} from 'react-dat-gui'
+import DatGui, { DatNumber, DatFolder, DatString } from 'react-dat-gui'
 
 enum FileStatus {
   DRAG_ENTER,
@@ -129,6 +123,9 @@ class App extends Component<{}, State> {
   }
 
   handleUpdate = (filters: any) => this.setState({ filters })
+  handleUpdateDropColor = (color: ColorResult) => {
+    this.setState(state => ({ ...state, filters: { ...state.filters, dropColor: color.hex } }))
+  }
 
   render() {
     const {
@@ -182,9 +179,14 @@ class App extends Component<{}, State> {
             <DatNumber path="dropOffY" label="y" min={0} max={100} step={1} />
             <DatNumber path="dropBlurRad" label="radius" min={0} max={10} step={0.1} />
             <DatString path="dropColor" label="color" />
-            {/* <DatColor path="dropColor" label="color" /> */}
           </DatFolder>
         </DatGui>
+        <div style={{ position: 'fixed', right: 16, top: 388 }}>
+          <ChromePicker
+            color={this.state.filters.dropColor}
+            onChangeComplete={this.handleUpdateDropColor}
+          />
+        </div>
         <Header />
         {imgUrl ? (
           <>
